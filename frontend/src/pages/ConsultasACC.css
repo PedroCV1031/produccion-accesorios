@@ -1,0 +1,85 @@
+.consultas-acc{width:100%;padding:28px;max-width:1600px;margin:auto}.cabecera-consulta{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.cabecera-consulta h1{font-size:1.7rem;margin:0;color:#173d2d}.cabecera-consulta p{color:#625f57;margin:5px 0}.filtros-consulta{display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:18px;background:#fffaf0;border:1px solid #b9b09e;margin-bottom:20px}.filtros-consulta label{display:grid;gap:5px;font-size:.85rem;font-weight:600}.filtros-consulta input,.filtros-consulta select{padding:9px;min-width:125px;border:1px solid #b9b09e;background:white}.filtros-consulta button,.paginacion button{padding:10px 18px;background:#07583a;color:white;border:0;cursor:pointer}.paginacion button:disabled{opacity:.45;cursor:default}.tabla-scroll{overflow:auto;background:white;border:1px solid #b9b09e}.tabla-scroll table{border-collapse:collapse;width:100%;font-size:.85rem;white-space:nowrap}.tabla-scroll th,.tabla-scroll td{padding:11px 12px;border-bottom:1px solid #e2ded3;text-align:left}.tabla-scroll th{background:#e7eadc;position:sticky;top:0}.tabla-scroll tbody tr:hover{background:#f6f4ec}.paginacion{display:flex;justify-content:center;align-items:center;gap:18px;margin:18px}.indicadores-consulta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.indicadores-consulta>div{background:#fffaf0;padding:20px;border:1px solid #d4c9b5;display:grid;gap:8px}.indicadores-consulta small{color:#625f57}.indicadores-consulta strong{font-size:1.6rem;color:#173d2d}.grafico-consulta{background:white;border:1px solid #d4c9b5;margin:20px 0;padding:18px}.grafico-consulta h2{font-size:1.1rem}.nota-consulta{color:#625f57;font-size:.9rem}
+
+/* Paso 27: diseño adaptable y ancho completo, siguiendo la distribución de Arcos. */
+.contenido:has(.consultas-acc){max-width:none!important;width:100%!important;padding:clamp(12px,1.2vw,24px)!important;}
+.consultas-acc{width:100%;max-width:none;margin:0 auto;padding:clamp(14px,1.5vw,28px);min-width:0;}
+.consultas-acc *{box-sizing:border-box;}
+.consultas-acc .cabecera-consulta{flex-wrap:wrap;}
+.consultas-acc .filtros-consulta{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr));gap:12px 14px;align-items:end;}
+.consultas-acc .filtros-consulta label{min-width:0;}
+.consultas-acc .filtros-consulta input,.consultas-acc .filtros-consulta select{width:100%;min-width:0;max-width:100%;}
+.consultas-acc .filtros-consulta button{min-height:40px;}
+.consultas-pedidos .tabla-scroll{width:100%;max-width:100%;overflow-x:auto;}
+.consultas-pedidos .tabla-pedidos-acc{width:100%;min-width:0;table-layout:auto;font-size:clamp(.68rem,.69vw,.85rem);white-space:normal;}
+.consultas-pedidos .tabla-pedidos-acc th,.consultas-pedidos .tabla-pedidos-acc td{padding:8px clamp(3px,.45vw,10px);overflow-wrap:anywhere;line-height:1.3;}
+.consultas-pedidos .tabla-pedidos-acc th{white-space:normal;}
+.consultas-pedidos .tabla-pedidos-acc td:nth-child(1){max-width:72px;}
+.consultas-pedidos .tabla-pedidos-acc td:nth-child(5){min-width:110px;}
+.consultas-estadisticas .indicadores-consulta{grid-template-columns:repeat(4,minmax(0,1fr));}
+.consultas-estadisticas .distribucion-estadisticas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);gap:18px;align-items:start;}
+.consultas-estadisticas .columna-estadisticas-principal,.consultas-estadisticas .columna-estadisticas-detalle{min-width:0;display:grid;gap:16px;align-content:start;}
+.consultas-estadisticas .grafico-consulta{margin:0;min-width:0;}
+.consultas-estadisticas .grafico-consulta table,.consultas-parciales .tabla-scroll table{width:100%;border-collapse:collapse;}
+.consultas-estadisticas .grafico-consulta th,.consultas-estadisticas .grafico-consulta td{padding:8px;text-align:left;border-bottom:1px solid #e7e2d8;}
+.consultas-parciales .indicadores-consulta{grid-template-columns:repeat(5,minmax(0,1fr));}
+.consultas-parciales .indicadores-consulta strong{font-size:clamp(.95rem,1.25vw,1.35rem);overflow-wrap:anywhere;}
+.consultas-parciales .tabla-scroll table{white-space:normal;}
+.consultas-parciales .tabla-scroll td,.consultas-parciales .tabla-scroll th{padding:10px 12px;}
+@media(min-width:1600px){.consultas-pedidos .tabla-pedidos-acc{font-size:.81rem;}.consultas-pedidos .tabla-pedidos-acc th,.consultas-pedidos .tabla-pedidos-acc td{padding:10px 8px;}}
+@media(max-width:1150px){.consultas-estadisticas .distribucion-estadisticas{grid-template-columns:1fr;}.consultas-estadisticas .columna-estadisticas-detalle{grid-template-columns:repeat(2,minmax(0,1fr));}.consultas-pedidos .tabla-pedidos-acc{min-width:1300px;white-space:nowrap;}.consultas-pedidos .tabla-pedidos-acc th,.consultas-pedidos .tabla-pedidos-acc td{white-space:nowrap;}.consultas-parciales .indicadores-consulta{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}}
+@media(max-width:650px){.consultas-estadisticas .indicadores-consulta{grid-template-columns:repeat(2,minmax(0,1fr));}.consultas-estadisticas .columna-estadisticas-detalle{grid-template-columns:1fr;}.consultas-acc .filtros-consulta{grid-template-columns:repeat(2,minmax(0,1fr));}.consultas-acc .paginacion{gap:8px;margin:14px 0;}.consultas-parciales .tabla-scroll{overflow-x:auto;}.consultas-parciales .tabla-scroll table{min-width:680px;}}
+
+/* Paso 28: una sola gráfica y tablas laterales, siguiendo Arcos */
+.estadisticas-arcos-acc .estadisticas-arcos-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr);gap:14px;align-items:start}
+.estadisticas-arcos-principal,.estadisticas-arcos-lateral{min-width:0}
+.estadisticas-arcos-acc .estadisticas-arcos-filtros{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:14px;margin-bottom:14px}
+.estadisticas-arcos-filtros label{font-size:.76rem;text-transform:uppercase;letter-spacing:.035em;color:#214d3b}
+.estadisticas-arcos-filtros input,.estadisticas-arcos-filtros select{font-size:.85rem}
+.estadisticas-arcos-filtros button.boton-secundario-acc{background:white;border:1px solid #176345;color:#17523a}
+.estadisticas-arcos-acc .estadisticas-arcos-indicadores{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.estadisticas-arcos-acc .estadisticas-arcos-indicadores>div{padding:12px;border-top:3px solid #bb007b}
+.estadisticas-arcos-acc .estadisticas-arcos-indicadores strong{font-size:clamp(1rem,1.5vw,1.4rem)}
+.estadisticas-arcos-acc .estadisticas-arcos-grafico{margin:0;padding:14px;min-width:0}
+.estadisticas-arcos-grafico h2,.estadisticas-arcos-tabla h2{font-size:1rem;margin:2px 0 8px;color:#173d2d}
+.estadisticas-arcos-grafico>p,.estadisticas-arcos-tabla>p{font-size:.78rem;color:#666;margin:0 0 10px}
+.estadisticas-arcos-lateral{display:grid;gap:12px}
+.estadisticas-arcos-acc .estadisticas-arcos-tabla{margin:0;padding:12px}
+.estadisticas-arcos-tabla table{width:100%;border-collapse:collapse;font-size:.83rem}
+.estadisticas-arcos-tabla th{background:#074f35;color:white;text-align:left;padding:8px}
+.estadisticas-arcos-tabla td{padding:8px;border-bottom:1px solid #d2c8b8}
+.estadisticas-arcos-tabla tbody tr:nth-child(even){background:#eee7d9}
+.estadisticas-arcos-tabla td:last-child,.estadisticas-arcos-tabla th:last-child{text-align:right}
+.estadisticas-arcos-tabla .paginacion{justify-content:space-between;margin:10px 0 0;gap:6px;font-size:.8rem}
+.estadisticas-arcos-tabla .paginacion button{padding:7px 12px}
+.acciones-categorias{display:flex;gap:8px;margin:8px 0}
+.acciones-categorias button{padding:5px 10px;border:1px solid #a6aa9d;background:white;color:#07583a;cursor:pointer}
+.categorias-scroll{max-height:215px;overflow:auto;display:grid;gap:4px}
+.categorias-scroll label{display:flex;gap:8px;align-items:center;font-size:.8rem}
+@media(max-width:1100px){.estadisticas-arcos-acc .estadisticas-arcos-grid{grid-template-columns:1fr}.estadisticas-arcos-acc .estadisticas-arcos-filtros{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.estadisticas-arcos-acc .estadisticas-arcos-filtros{grid-template-columns:repeat(2,minmax(0,1fr))}.estadisticas-arcos-acc .estadisticas-arcos-indicadores{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Paso 32: conservar EXACTAMENTE el diseño de dos columnas del paso 29.
+   Solo extender el panel lateral de detalle hasta el borde inferior de la gráfica. */
+@media (min-width: 1101px) {
+  .estadisticas-arcos-acc .estadisticas-arcos-grid { align-items: stretch; }
+  .estadisticas-arcos-acc .estadisticas-arcos-lateral { align-self: stretch; display: flex; flex-direction: column; }
+  .estadisticas-arcos-acc .estadisticas-arcos-tabla { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion { margin-top: auto; padding-top: 12px; }
+}
+
+/* Paso 33: mejoras puntuales, sin modificar la distribución base del paso 32. */
+@media (min-width: 1101px) {
+ .estadisticas-arcos-acc .estadisticas-arcos-grid{align-items:stretch}
+ .estadisticas-arcos-acc .estadisticas-arcos-lateral{min-height:100%;align-self:stretch}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla{flex:1;min-height:100%;display:flex;flex-direction:column}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion{margin-top:auto}
+}
+.otras-control-acc{display:flex!important;align-items:center;justify-content:flex-start;gap:8px;min-height:40px;white-space:nowrap;text-transform:none!important;letter-spacing:0!important;font-weight:600!important}
+.otras-control-acc input{width:auto!important;min-width:0!important;accent-color:#07583a;transform:scale(1.12)}
+.estado-pedido-acc{display:inline-block;padding:5px 9px;border-radius:5px;white-space:nowrap;font-weight:700;font-size:.78rem;border:1px solid transparent}
+.estado-pedido-acc.estado-exito{background:#d7efe0;color:#075c2a;border-color:#b4ddc2}
+.estado-pedido-acc.estado-alerta{background:#f9dada;color:#921b1b;border-color:#eab5b5}
+.estado-pedido-acc.estado-proximo{background:#fff0ca;color:#77520b;border-color:#e8d295}
+.estado-pedido-acc.estado-entregado{background:#ddedf4;color:#215b70;border-color:#badbe8}
+.estado-pedido-acc.estado-proceso{background:#e9e8e5;color:#45525a;border-color:#d1d0cb}
