@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import {
   NavLink,
+  useLocation,
+  useNavigate,
   Navigate,
   Route,
   Routes,
@@ -21,6 +23,9 @@ interface RespuestaSesion {
 }
 
 function App() {
+  const [importando, setImportando] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
   const [usuario, setUsuario] = useState<string | null>(
     null,
   )
@@ -62,6 +67,29 @@ function App() {
     }
   }, [])
 
+  // Bloquea navegación solo dentro de esta aplicación mientras la importación está activa.
+  // El servidor puede estar procesando aunque el navegador se recargue.
+  useEffect(() => {
+    const cambio = (evento: Event) => {
+      setImportando(Boolean((evento as CustomEvent<{ activo: boolean }>).detail?.activo))
+    }
+    window.addEventListener('acc-importacion-activa', cambio)
+    let vigente = true
+    void api.get('/api/consultas-acc/estado-importacion')
+      .then(r => { if (vigente && r.data?.en_curso) setImportando(true) })
+      .catch(() => {})
+    return () => {
+      vigente = false
+      window.removeEventListener('acc-importacion-activa', cambio)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (importando && location.pathname !== '/importaciones') {
+      navigate('/importaciones', { replace: true })
+    }
+  }, [importando, location.pathname, navigate])
+
   async function cerrarSesion() {
     try {
       await api.post('/api/auth/logout')
@@ -95,16 +123,19 @@ function App() {
           />
 
           <span className="subtitulo">
-            Produccion accesorios
+            Plataforma produccion de accesorios
           </span>
         </div>
 
         <div className="controles-encabezado">
-          <nav className="navegacion">
+          <nav className="navegacion" aria-label="Navegación">
             <NavLink to="/importaciones">Importar</NavLink>
-            <NavLink to="/pedidos">Pedidos</NavLink>
-            <NavLink to="/estadisticas">Estadísticas</NavLink>
-            <NavLink to="/parciales">Parciales</NavLink>
+            {([['/pedidos','Pedidos'],['/estadisticas','Estadísticas'],['/parciales','Parciales']] as const).map(([ruta, nombre]) =>
+              <NavLink key={ruta} to={ruta} aria-disabled={importando} tabIndex={importando ? -1 : undefined}
+                title={importando ? 'Disponible cuando termine la importación' : undefined}
+                onClick={e => { if (importando) e.preventDefault() }}
+                className={importando ? 'navegacion-bloqueada' : undefined}>{nombre}</NavLink>
+            )}
           </nav>
 
           <div className="sesion-encabezado">

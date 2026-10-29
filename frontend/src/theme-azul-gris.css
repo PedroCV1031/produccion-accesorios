@@ -1,0 +1,99 @@
+:root {
+  --verde-principal: #315d78;
+  --verde-oscuro: #203b51;
+  --verde-claro: #e7eff5;
+  --verde-borde: #668195;
+  --blanco: #ffffff;
+  --fondo: #dfe7ef;
+  --texto: #263a4b;
+  --texto-secundario: #607589;
+  --magenta-arcoline: #547e9a;
+  --mostaza: #9aafc0;
+  --terracota: #b56e52;
+  --papel-oscuro: #dbe4ec;
+  --borde-suave: #cad6e1;
+  --sombra-solida: #aebecb;
+  --crema: #e7edf3;
+  --papel: #ffffff;
+  --tinta: #263a4b;
+  --borde: #70889d;
+}
+html, body, #root { color: var(--texto); }
+.aplicacion, .pantalla-login {
+  background-color: #dce6ef;
+  background-image: linear-gradient(135deg, rgba(225,235,245,.82), rgba(174,191,208,.77)), var(--imagen-fondo-aplicacion) !important;
+  background-position: center, center !important;
+  background-size: cover, cover !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+.encabezado { background:#f9fbfd; border-bottom-color:#294b64; box-shadow:0 4px 0 #8da6b8; }
+/* El logo es una imagen y permanece intacto. */
+.subtitulo, .sesion-encabezado span, .navegacion a { color:#243f54; }
+.navegacion a:hover { background:#e6eef5; border-color:#91a9ba; }
+.navegacion a.active, .navegacion a[aria-current='page'] { background:#315d78; border-color:#203b51; color:#fff; box-shadow:3px 3px 0 #91a9ba; }
+.contenido section, .tarjeta-login, .consultas-acc, .acc-page, .acc-import { color:#263a4b; }
+.contenido section { border-color:#435f76; box-shadow:8px 8px 0 #afbfcc; background:#fbfcfe; }
+.contenido section::before { background:#698da6; }
+.contenido h2,.contenido h3,.encabezado-login h1, .cabecera-consulta h1,
+.acc-heading h1,.acc-paso-titulo,.estadisticas-arcos-grafico h2,.estadisticas-arcos-tabla h2 { color:#203b51; }
+.contenido p,.cabecera-consulta p, .acc-paso-descripcion {color:#5f7485;}
+.panel-filtros,.zona-archivo,.configuracion-entregas,.pagina-radicados .configuracion-entregas {
+  background-color:#edf3f8 !important;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(51,83,110,.055) 32px);
+  border-color:#8ca3b5;
+}
+.campo-filtro label,.campo-login label,.campo-archivo label,.filtros-consulta label,
+.estadisticas-arcos-filtros label,.configuracion-entregas label {color:#324f65;}
+.campo-filtro input,.campo-filtro select,.campo-login input,.fila-seleccion-archivo input,
+.filtros-consulta input,.filtros-consulta select, .acc-page input:not([type='checkbox']):not([type='radio']), .acc-page select {
+  color:#273c4e; background:#fff; border-color:#b7c8d6;
+}
+.campo-filtro input:focus,.campo-filtro select:focus,.campo-login input:focus,
+.filtros-consulta input:focus,.filtros-consulta select:focus,
+.acc-page input:focus,.acc-page select:focus { border-color:#537e9e; outline-color:#9db6cc; box-shadow:0 0 0 3px rgba(95,143,178,.16); }
+.boton-principal,.boton-importar,.paginacion button,.filtros-consulta button,
+.acc-page .acc-primary, .acc-page button.acc-primary,
+.sesion-encabezado button:hover { color:#fff; background:#315d78; border-color:#203b51; box-shadow:3px 3px 0 #9fb3c3; }
+.boton-principal:hover:not(:disabled),.boton-importar:hover:not(:disabled),
+.paginacion button:hover:not(:disabled),.filtros-consulta button:hover:not(:disabled),
+.acc-page .acc-primary:hover:not(:disabled) { background:#23475f; }
+.boton-secundario,.sesion-encabezado button,.acc-page button.acc-secondary,
+.estadisticas-arcos-filtros button.boton-secundario-acc,
+.acc-page-inicial .acc-reiniciar,.consultas-pedidos .filtros-pedidos-acc .boton-limpiar-filtros {
+  color:#315d78; background:#f9fbfd; border-color:#6c8ca5; box-shadow:2px 2px 0 #d0dce6;
+}
+.boton-secundario:hover:not(:disabled) { background:#e2edf5; color:#203b51; box-shadow:2px 2px 0 #9cb4c7; }
+.tarjeta-resumen,.tarjeta-indicador,.indicadores-consulta>div,.acc-stats>div,
+.estadisticas-arcos-indicadores>div { background:#fbfcfe; border-color:#c4d3df; }
+.tarjeta-resumen::before,.tarjeta-indicador::before { background:#6f92aa; }
+.indicadores-consulta strong,.tarjeta-resumen strong,.tarjeta-indicador strong { color:#234960; }
+.contenedor-tabla,.tabla-scroll,.grafico-consulta,.estadisticas-arcos-grafico,
+.estadisticas-arcos-tabla,.acc-summary,.acc-compare,.linea-tiempo-acc { background:#fff; border-color:#c4d3df; }
+.tabla-radicados th,.estadisticas-arcos-tabla th { background:#294d66 !important; color:#fff; border-color:#8ca6ba; }
+.tabla-radicados td,.estadisticas-arcos-tabla td,.tabla-scroll th,.tabla-scroll td { border-color:#d9e3ec; }
+.tabla-radicados tbody tr:nth-child(even),.estadisticas-arcos-tabla tbody tr:nth-child(even),
+.tabla-scroll tbody tr:nth-child(even) { background:#eef3f8 !important; }
+.tabla-radicados tbody tr:hover,.tabla-scroll tbody tr:hover {background:#dceaf4 !important;}
+.tabla-scroll th { background:#e4edf4; color:#29475d; }
+.grafica-ventas,.bloque-tabla-ventas,.bloque-hojas { background:#fbfcfe; border-color:#a3b9c9; box-shadow:4px 4px 0 #c3d2dd; }
+.opcion-hoja,.acc-hoja-opcion { background:#f4f8fb !important; border-color:#c5d4e0 !important; }
+.opcion-hoja:has(input:checked),.acc-hoja-opcion:has(input:checked) { background:#e1edf6 !important; border-color:#5782a0 !important; }
+.opcion-hoja input,.acc-hoja-opcion input,.otras-control-acc input { accent-color:#466f8d; }
+.acc-page-inicial .acc-import,.acc-page-inicial .acc-import-confirmar,
+.acc-page-inicial .acc-resultado-final,.acc-page-inicial .acc-resultado,
+.acc-page-inicial .acc-instruccion,.acc-page .acc-notice[role='status'] { background:#f3f7fb; border-color:#bbcedd; }
+.acc-page-inicial .acc-import-hojas { border-left-color:#537e9e; }
+.acc-page-inicial .acc-paso-titulo span,.acc-progreso progress { background:#315d78; accent-color:#315d78; }
+.acc-page-inicial .acc-resultado-cifras>div { border-color:#c5d5e1; background:#fff; }
+.acc-page-inicial .acc-resultado-cifras strong,.acc-page-inicial .acc-resultado-cifras span { color:#294b64; }
+.acc-progreso { background:#eaf3f9; color:#294b64; border-color:#b5cad9; border-left-color:#537e9e; }
+.estado-pedido-acc.estado-proceso,.estado-en_proceso { background:#e6edf3; color:#354f63; border-color:#b4c7d7; }
+.estado-pedido-acc.estado-entregado,.estado-entregado {background:#dfedf7; color:#215b7c; border-color:#a6c6dc;}
+/* Los tonos semánticos de alerta, vencimiento y éxito siguen diferenciados. */
+.recharts-cartesian-grid line {stroke:#d3dee7;}
+.recharts-text {fill:#536b7e;}
+.recharts-default-tooltip { background:#fff !important; border-color:#7693a9 !important; box-shadow:3px 3px 0 #d0dce6; }
+.mensaje-estado,.archivo-seleccionado,.mensaje-informativo { background:#e8f2f8; color:#244e6c; border-color:#98b6ca; box-shadow:3px 3px 0 #d6e2eb; }
+.paginacion-tabla button {color:#315d78; border-color:#6689a3; box-shadow:2px 2px 0 #c3d2dd;}
+.paginacion-tabla button:hover:not(:disabled) {background:#315d78;color:#fff;}

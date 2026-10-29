@@ -188,7 +188,7 @@ def confirmar_lote(*, contenido: bytes, hojas: list[str] | None,
 
 def confirmar_lote_por_bloques(*, contenido: bytes, hojas: list[str] | None,
                                resoluciones: dict[str, str], exclusiones_invalidas: list[str],
-                               client, database, tamano_bloque: int = 40,
+                               client, database, tamano_bloque: int = 80,
                                max_filas: int = 2000) -> dict:
     """Confirma por transacciones pequeñas; guarda avance y permite reanudar el MISMO archivo.
 
@@ -253,7 +253,7 @@ def confirmar_lote_por_bloques(*, contenido: bytes, hojas: list[str] | None,
                 '_id': importacion_id, 'hash': digest, 'hojas': hojas,
                 'firma_decisiones': firma_decisiones, 'resoluciones': resoluciones,
                 'exclusiones_invalidas': exclusiones_invalidas, 'tareas': tareas,
-                'tamano_bloque': tamano_bloque, 'siguiente': 0,
+                'tamano_bloque': tamano_bloque, 'total_tareas': len(tareas), 'siguiente': 0,
                 'resumen': {'nuevos': 0, 'actualizados': 0, 'sin_cambios': 0,
                             'excluidos': 0, 'saldos_iniciales': 0, 'parciales': 0,
                             'filas_invalidas_excluidas': analisis['total_invalidas']},
@@ -280,12 +280,10 @@ def confirmar_lote_por_bloques(*, contenido: bytes, hojas: list[str] | None,
     por_origen = {f"{f['_hoja']}:{f['_fila']}": f for f in filas}
     total = len(tareas)
     paso = registro['tamano_bloque']
-    while True:
-        # Leer el progreso persistido ANTES de cada bloque; nunca confiar en memoria.
-        registro = importaciones.find_one({'_id': importacion_id})
-        inicio = registro['siguiente']
-        if inicio >= total:
-            break
+    # El progreso se avanza únicamente después del commit. Si falla la llamada,
+    # el próximo intento vuelve a leer el progreso persistido desde MongoDB.
+    inicio = registro['siguiente']
+    while inicio < total:
         fin = min(total, inicio + paso)
         ahora = datetime.now(timezone.utc)
 
@@ -301,13 +299,22 @@ def confirmar_lote_por_bloques(*, contenido: bytes, hojas: list[str] | None,
             # El manifiesto conserva IDs permanentes; el avance se confirma en esta transacción.
             nuevos, actualizados, nuevas_versiones, nuevos_movimientos = [], [], [], []
             from pymongo import UpdateOne
+            # Un solo round-trip para obtener todos los pedidos existentes del bloque.
+            # Antes se realizaba un find_one por fila: hasta 80 consultas adicionales.
+            ids_existentes = [ObjectId(t['pedido_id']) for t in tareas[inicio:fin]
+                               if t['accion'] == 'existente']
+            previos = ({d['_id']: d for d in pedidos.find(
+                {'_id': {'$in': ids_existentes}},
+                {'datos': 1, 'revision': 1, 'identidad': 1, 'clave_unica': 1},
+                session=session,
+            )} if ids_existentes else {})
             for tarea in tareas[inicio:fin]:
                 if tarea['accion'] in ('excluido', 'duplicado'):
                     conteos['excluidos'] += 1
                     continue
                 fila = por_origen[tarea['origen']]
                 pid = ObjectId(tarea['pedido_id'])
-                previo = pedidos.find_one({'_id': pid}, session=session) if tarea['accion'] == 'existente' else None
+                previo = previos.get(pid) if tarea['accion'] == 'existente' else None
                 if tarea['accion'] == 'existente':
                     if previo is None or previo.get('revision', 1) != tarea['revision_original']:
                         raise LoteNoConfirmable('Un pedido fue modificado; revisa antes de continuar')
@@ -357,13 +364,16 @@ def confirmar_lote_por_bloques(*, contenido: bytes, hojas: list[str] | None,
             if fin == total:
                 update['$set']['estado'] = 'confirmado'
                 update['$set']['confirmado_en'] = ahora
-            importaciones.update_one({'_id': importacion_id, 'siguiente': inicio},
-                                     update, session=session)
+            avance = importaciones.update_one({'_id': importacion_id, 'siguiente': inicio},
+                                               update, session=session)
+            if avance.matched_count != 1:
+                raise LoteNoConfirmable('El progreso del lote cambió durante la transacción')
             if fin == total:
                 importaciones.delete_one({'_id': bloqueo_id, 'importacion_id': importacion_id}, session=session)
         with client.start_session() as session:
             # PyMongo reintenta transacciones con error TransientTransactionError.
             session.with_transaction(escribir_bloque)
+        inicio = fin
     registro = importaciones.find_one({'_id': importacion_id})
     return {'importacion_id': importacion_id, 'resumen': registro['resumen'],
             'confirmado': registro['estado'] == 'confirmado',

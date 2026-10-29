@@ -9,21 +9,21 @@
     Arial,
     sans-serif;
 
-  color: #252722;
-  background: #f3eddf;
+  color: #24352F;
+  background: #F1F6F4;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 
-  --crema: #f3eddf;
-  --papel: #fffaf0;
+  --crema: #F1F6F4;
+  --papel: #FFFFFF;
   --verde-principal: #07583a;
-  --verde-oscuro: #173d2d;
+  --verde-oscuro: #174536;
   --magenta-arcoline: #c0007f;
   --mostaza: #d39a2c;
-  --tinta: #252722;
-  --texto-secundario: #625f57;
+  --tinta: #24352F;
+  --texto-secundario: #60736B;
   --borde: #294c3b;
-  --borde-suave: #b9b5a8;
+  --borde-suave: #C4D8CD;
 }
 
 * {

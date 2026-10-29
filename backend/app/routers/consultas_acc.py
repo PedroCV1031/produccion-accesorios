@@ -1,5 +1,7 @@
 """Consultas de pedidos ACC y evolución. Solo lectura, paginación del lado servidor."""
 from datetime import date, timedelta, datetime
+from time import monotonic
+from threading import Lock
 from zoneinfo import ZoneInfo
 from bson import ObjectId
 from bson.errors import InvalidId
@@ -50,12 +52,27 @@ def filtros_pedidos(cliente=None, referencia=None, fecha_inicio=None, fecha_fin=
     if rango: f['datos.fecha_pedido'] = rango
     return f
 
+_opciones_cache = {'vence': 0.0, 'data': None}
+_opciones_lock = Lock()
+
+def invalidar_opciones_filtros():
+    with _opciones_lock:
+        _opciones_cache['vence'] = 0.0
+
 @router.get('/opciones-filtros')
 def opciones_filtros():
-    coll=database['pedidos_acc']
-    campos=['cliente','comercial','orden_compra','referencia','acabado_talla','color_codigo']
-    return {**{k: sorted((str(v) for v in coll.distinct('datos.'+k) if v is not None and str(v).strip()), key=str.casefold) for k in campos},
-            'estados': ESTADOS_PEDIDO, 'dias_entrega_proxima': obtener_dias_entrega_proxima()}
+    # Consultas de opciones en Atlas pueden costar seis viajes a la red.
+    # Reutilizar durante 45 s; tras importar, las nuevas opciones aparecen
+    # como máximo 45 s después (se evita un caché permanente).
+    with _opciones_lock:
+        if _opciones_cache['data'] is not None and monotonic() < _opciones_cache['vence']:
+            return _opciones_cache['data']
+        coll=database['pedidos_acc']
+        campos=['cliente','comercial','orden_compra','referencia','acabado_talla','color_codigo']
+        datos = {**{k: sorted((str(v) for v in coll.distinct('datos.'+k) if v is not None and str(v).strip()), key=str.casefold) for k in campos},
+                 'estados': ESTADOS_PEDIDO, 'dias_entrega_proxima': obtener_dias_entrega_proxima()}
+        _opciones_cache.update(data=datos, vence=monotonic()+45)
+        return datos
 
 @router.get('/pedidos')
 def listar_pedidos(pagina:int=Query(1,ge=1),por_pagina:int=Query(50,ge=1,le=200),
@@ -140,9 +157,13 @@ def estado_importacion():
     if not activo or not activo.get('importacion_id'):
         return {'en_curso': False}
     doc = importaciones.find_one({'_id': activo['importacion_id']},
-                                  {'estado': 1, 'siguiente': 1, 'tareas': 1, 'resumen': 1, 'actualizado_en': 1})
+                                  {'estado': 1, 'siguiente': 1, 'total_tareas': 1, 'resumen': 1, 'actualizado_en': 1})
     if not doc:
         return {'en_curso': True, 'requiere_revision': True}
+    if doc.get('total_tareas') is None:
+        # Compatibilidad con importaciones creadas antes de esta optimización.
+        previo = importaciones.find_one({'_id': activo['importacion_id']}, {'tareas': 1})
+        doc['total_tareas'] = len((previo or {}).get('tareas') or [])
     return {'en_curso': doc.get('estado') == 'en_curso', 'estado': doc.get('estado'),
-            'procesados': doc.get('siguiente', 0), 'total': len(doc.get('tareas', [])),
+            'procesados': doc.get('siguiente', 0), 'total': doc.get('total_tareas') or 0,
             'resumen': doc.get('resumen', {}), 'actualizado_en': doc.get('actualizado_en')}

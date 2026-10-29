@@ -12,9 +12,11 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from starlette.concurrency import run_in_threadpool
 from pymongo.errors import PyMongoError
 
 from app.database import pedidos_acc_collection, client, database
+from app.routers.consultas_acc import invalidar_opciones_filtros
 from app.services.identificacion import clave_unica, clave_distincion
 from app.services.lector_excel_acc import analizar_archivo, detectar_hojas_validas
 from app.services.lote_acc import planificar_lote
@@ -111,7 +113,7 @@ async def hojas_para_importar(file: UploadFile = File(...)):
     if len(contenido) > MAX_ARCHIVO:
         raise HTTPException(413, 'Archivo superior a 20 MB')
     try:
-        resultado = detectar_hojas_validas(contenido)
+        resultado = await run_in_threadpool(detectar_hojas_validas, contenido)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
     return {"hojas": resultado, "seleccion_inicial": [h["hoja"] for h in resultado if h["formato_valido"]]}
@@ -136,7 +138,7 @@ async def previsualizar_conciliacion(
     if len(contenido) > MAX_ARCHIVO:
         raise HTTPException(413, 'El archivo supera 20 MB')
     try:
-        validar_seleccion_hojas(contenido, hojas)
+        await run_in_threadpool(validar_seleccion_hojas, contenido, hojas)
         resoluciones = json.loads(resoluciones_json)
         if not isinstance(resoluciones, dict) or not all(
             isinstance(k, str) and isinstance(v, str) for k, v in resoluciones.items()
@@ -145,7 +147,7 @@ async def previsualizar_conciliacion(
         exclusiones = json.loads(exclusiones_invalidas_json)
         if exclusiones is not None and (not isinstance(exclusiones, list) or not all(isinstance(x, str) for x in exclusiones)):
             raise ValueError('Las exclusiones inválidas deben ser una lista de identificadores')
-        return construir_previsualizacion(contenido, hojas, pedidos_acc_collection, resoluciones, exclusiones)
+        return await run_in_threadpool(construir_previsualizacion, contenido, hojas, pedidos_acc_collection, resoluciones, exclusiones)
     except json.JSONDecodeError as exc:
         raise HTTPException(422, "Resoluciones JSON inválidas") from exc
     except ValueError as exc:
@@ -170,14 +172,16 @@ async def confirmar_piloto(
     if len(contenido) > MAX_ARCHIVO:
         raise HTTPException(413, 'Archivo superior a 20 MB')
     try:
-        validar_seleccion_hojas(contenido, hojas)
+        await run_in_threadpool(validar_seleccion_hojas, contenido, hojas)
         resoluciones = json.loads(resoluciones_json)
         exclusiones = json.loads(exclusiones_invalidas_json)
         # El servicio comprueba las decisiones y repite la conciliación bajo sesión.
-        return confirmar_lote(
-            contenido=contenido, hojas=hojas, resoluciones=resoluciones,
+        resultado = await run_in_threadpool(
+            confirmar_lote, contenido=contenido, hojas=hojas, resoluciones=resoluciones,
             exclusiones_invalidas=exclusiones, client=client, database=database,
         )
+        invalidar_opciones_filtros()
+        return resultado
     except (ValueError, LoteNoConfirmable) as exc:
         raise HTTPException(409, str(exc)) from exc
     except PyMongoError as exc:
@@ -201,13 +205,16 @@ async def confirmar_masivo(
     if len(contenido) > MAX_ARCHIVO:
         raise HTTPException(413, 'Archivo superior a 20 MB')
     try:
-        validar_seleccion_hojas(contenido, hojas)
-        return confirmar_lote_por_bloques(
+        await run_in_threadpool(validar_seleccion_hojas, contenido, hojas)
+        resultado = await run_in_threadpool(
+            confirmar_lote_por_bloques,
             contenido=contenido, hojas=hojas,
             resoluciones=json.loads(resoluciones_json),
             exclusiones_invalidas=json.loads(exclusiones_invalidas_json),
-            client=client, database=database, max_filas=2000, tamano_bloque=40,
+            client=client, database=database, max_filas=2000, tamano_bloque=80,
         )
+        invalidar_opciones_filtros()
+        return resultado
     except (ValueError, LoteNoConfirmable) as exc:
         raise HTTPException(409, str(exc)) from exc
     except PyMongoError as exc:

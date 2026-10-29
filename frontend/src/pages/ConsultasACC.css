@@ -1,4 +1,4 @@
-.consultas-acc{width:100%;padding:28px;max-width:1600px;margin:auto}.cabecera-consulta{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.cabecera-consulta h1{font-size:1.7rem;margin:0;color:#173d2d}.cabecera-consulta p{color:#625f57;margin:5px 0}.filtros-consulta{display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:18px;background:#fffaf0;border:1px solid #b9b09e;margin-bottom:20px}.filtros-consulta label{display:grid;gap:5px;font-size:.85rem;font-weight:600}.filtros-consulta input,.filtros-consulta select{padding:9px;min-width:125px;border:1px solid #b9b09e;background:white}.filtros-consulta button,.paginacion button{padding:10px 18px;background:#07583a;color:white;border:0;cursor:pointer}.paginacion button:disabled{opacity:.45;cursor:default}.tabla-scroll{overflow:auto;background:white;border:1px solid #b9b09e}.tabla-scroll table{border-collapse:collapse;width:100%;font-size:.85rem;white-space:nowrap}.tabla-scroll th,.tabla-scroll td{padding:11px 12px;border-bottom:1px solid #e2ded3;text-align:left}.tabla-scroll th{background:#e7eadc;position:sticky;top:0}.tabla-scroll tbody tr:hover{background:#f6f4ec}.paginacion{display:flex;justify-content:center;align-items:center;gap:18px;margin:18px}.indicadores-consulta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.indicadores-consulta>div{background:#fffaf0;padding:20px;border:1px solid #d4c9b5;display:grid;gap:8px}.indicadores-consulta small{color:#625f57}.indicadores-consulta strong{font-size:1.6rem;color:#173d2d}.grafico-consulta{background:white;border:1px solid #d4c9b5;margin:20px 0;padding:18px}.grafico-consulta h2{font-size:1.1rem}.nota-consulta{color:#625f57;font-size:.9rem}
+.consultas-acc{width:100%;padding:28px;max-width:1600px;margin:auto}.cabecera-consulta{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}.cabecera-consulta h1{font-size:1.7rem;margin:0;color:#173d2d}.cabecera-consulta p{color:#60736B;margin:5px 0}.filtros-consulta{display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:18px;background:#FFFFFF;border:1px solid #C4D8CD;margin-bottom:20px}.filtros-consulta label{display:grid;gap:5px;font-size:.85rem;font-weight:600}.filtros-consulta input,.filtros-consulta select{padding:9px;min-width:125px;border:1px solid #C4D8CD;background:white}.filtros-consulta button,.paginacion button{padding:10px 18px;background:#07583a;color:white;border:0;cursor:pointer}.paginacion button:disabled{opacity:.45;cursor:default}.tabla-scroll{overflow:auto;background:white;border:1px solid #C4D8CD}.tabla-scroll table{border-collapse:collapse;width:100%;font-size:.85rem;white-space:nowrap}.tabla-scroll th,.tabla-scroll td{padding:11px 12px;border-bottom:1px solid #E1EBE5;text-align:left}.tabla-scroll th{background:#E6F2EB;position:sticky;top:0}.tabla-scroll tbody tr:hover{background:#F3F8F5}.paginacion{display:flex;justify-content:center;align-items:center;gap:18px;margin:18px}.indicadores-consulta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.indicadores-consulta>div{background:#FFFFFF;padding:20px;border:1px solid #C4D8CD;display:grid;gap:8px}.indicadores-consulta small{color:#60736B}.indicadores-consulta strong{font-size:1.6rem;color:#173d2d}.grafico-consulta{background:white;border:1px solid #C4D8CD;margin:20px 0;padding:18px}.grafico-consulta h2{font-size:1.1rem}.nota-consulta{color:#60736B;font-size:.9rem}
 
 /* Paso 27: diseño adaptable y ancho completo, siguiendo la distribución de Arcos. */
 .contenido:has(.consultas-acc){max-width:none!important;width:100%!important;padding:clamp(12px,1.2vw,24px)!important;}
@@ -20,7 +20,7 @@
 .consultas-estadisticas .columna-estadisticas-principal,.consultas-estadisticas .columna-estadisticas-detalle{min-width:0;display:grid;gap:16px;align-content:start;}
 .consultas-estadisticas .grafico-consulta{margin:0;min-width:0;}
 .consultas-estadisticas .grafico-consulta table,.consultas-parciales .tabla-scroll table{width:100%;border-collapse:collapse;}
-.consultas-estadisticas .grafico-consulta th,.consultas-estadisticas .grafico-consulta td{padding:8px;text-align:left;border-bottom:1px solid #e7e2d8;}
+.consultas-estadisticas .grafico-consulta th,.consultas-estadisticas .grafico-consulta td{padding:8px;text-align:left;border-bottom:1px solid #E1EBE5;}
 .consultas-parciales .indicadores-consulta{grid-template-columns:repeat(5,minmax(0,1fr));}
 .consultas-parciales .indicadores-consulta strong{font-size:clamp(.95rem,1.25vw,1.35rem);overflow-wrap:anywhere;}
 .consultas-parciales .tabla-scroll table{white-space:normal;}
@@ -46,8 +46,8 @@
 .estadisticas-arcos-acc .estadisticas-arcos-tabla{margin:0;padding:12px}
 .estadisticas-arcos-tabla table{width:100%;border-collapse:collapse;font-size:.83rem}
 .estadisticas-arcos-tabla th{background:#074f35;color:white;text-align:left;padding:8px}
-.estadisticas-arcos-tabla td{padding:8px;border-bottom:1px solid #d2c8b8}
-.estadisticas-arcos-tabla tbody tr:nth-child(even){background:#eee7d9}
+.estadisticas-arcos-tabla td{padding:8px;border-bottom:1px solid #DCE8E0}
+.estadisticas-arcos-tabla tbody tr:nth-child(even){background:#EDF5F0}
 .estadisticas-arcos-tabla td:last-child,.estadisticas-arcos-tabla th:last-child{text-align:right}
 .estadisticas-arcos-tabla .paginacion{justify-content:space-between;margin:10px 0 0;gap:6px;font-size:.8rem}
 .estadisticas-arcos-tabla .paginacion button{padding:7px 12px}
@@ -82,4 +82,91 @@
 .estado-pedido-acc.estado-alerta{background:#f9dada;color:#921b1b;border-color:#eab5b5}
 .estado-pedido-acc.estado-proximo{background:#fff0ca;color:#77520b;border-color:#e8d295}
 .estado-pedido-acc.estado-entregado{background:#ddedf4;color:#215b70;border-color:#badbe8}
-.estado-pedido-acc.estado-proceso{background:#e9e8e5;color:#45525a;border-color:#d1d0cb}
+.estado-pedido-acc.estado-proceso{background:#E9F2EE;color:#45525a;border-color:#C4D8CD}
+
+/* Ajustes de usabilidad: mismos paneles y paleta. */
+.consultas-pedidos .tabla-pedidos-acc{width:100%;table-layout:auto;white-space:normal;font-size:clamp(.68rem,.72vw,.86rem)}
+.consultas-pedidos .tabla-pedidos-acc td,.consultas-pedidos .tabla-pedidos-acc th{padding:8px 5px;overflow-wrap:anywhere}
+.consultas-pedidos .filtros-consulta{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
+.linea-tiempo-acc{border:1px solid #C4D8CD;background:#FFFFFF;padding:18px;margin:16px 0}
+.linea-tiempo-acc h2{font-size:1.05rem;margin:0 0 16px;color:#173d2d}
+.hitos-acc{display:flex;gap:0;overflow-x:auto;padding:8px 2px 14px}
+.hito-acc{flex:1 0 180px;position:relative;padding:32px 12px 0;border-top:3px solid #b7d0bf}
+.hito-acc:last-child{border-top-color:#07583a}
+.hito-numero{position:absolute;top:-16px;left:12px;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;background:#07583a;color:white;font-weight:700}
+.hito-acc strong,.hito-acc small{display:block}.hito-acc small{color:#60736B;margin:5px 0}.hito-acc p{margin:0;font-size:.83rem}
+@media(max-width:850px){.hito-acc{flex-basis:160px}.consultas-pedidos .tabla-pedidos-acc{min-width:1280px}}
+
+/* Paso 37: filtros agrupados y tabla responsiva sin alterar la página base. */
+.consultas-pedidos .filtros-pedidos-acc{
+  grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;
+}
+.consultas-pedidos .filtros-pedidos-acc label{font-size:.78rem;line-height:1.25;}
+.consultas-pedidos .filtros-pedidos-acc .boton-limpiar-filtros{background:#fff;border:1px solid #176345;color:#17523a;}
+.consultas-pedidos .tabla-scroll{width:100%;}
+.consultas-pedidos .tabla-pedidos-acc{width:100%;}
+/* La tabla derecha ocupa toda la altura sobrante; la paginación permanece abajo. */
+@media(min-width:1101px){
+ .estadisticas-arcos-acc .estadisticas-arcos-grid{align-items:stretch;}
+ .estadisticas-arcos-acc .estadisticas-arcos-lateral{display:flex;align-items:stretch;flex-direction:column;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla{display:grid;grid-template-rows:auto minmax(0,1fr) auto;flex:1;min-height:100%;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla table{height:100%;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla td{vertical-align:middle;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion{margin-top:0;padding-top:12px;}
+}
+.estadisticas-arcos-acc .recharts-pie-label-text{font-weight:600;}
+.consultas-parciales .grafico-consulta h2{font-family:inherit;font-weight:700;font-size:1.05rem;}
+.consultas-parciales .grafico-consulta p{line-height:1.55;}
+@media(max-width:1450px){.consultas-pedidos .filtros-pedidos-acc{grid-template-columns:repeat(5,minmax(0,1fr));}}
+@media(max-width:900px){.consultas-pedidos .filtros-pedidos-acc{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:650px){.consultas-pedidos .filtros-pedidos-acc{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* Paso 37: orden comercial natural en filtros; conserva la tabla y el diseño general. */
+@media(min-width:1400px){
+  .consultas-pedidos .filtros-consulta{grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+}
+@media(min-width:850px) and (max-width:1399px){
+  .consultas-pedidos .filtros-consulta{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+}
+@media(max-width:849px){.consultas-pedidos .filtros-consulta{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.consultas-pedidos .filtros-consulta button[type=submit]{min-height:38px}
+/* Panel derecho lleno; filas distribuidas verticalmente sin cambiar columnas. */
+@media(min-width:1101px){
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla table{flex:1 1 auto;height:100%;min-height:0}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla tbody tr{height:calc(100% / 12)}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla td{vertical-align:middle}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion{margin-top:auto}
+}
+/* Cabecera de parciales: solo atributos útiles, sin identificadores internos. */
+.consultas-parciales .detalle-pedido-acc{margin:15px 0;padding:16px 20px;background:#fff;border:1px solid #C4D8CD}
+.consultas-parciales .detalle-pedido-acc h2{font-size:1.04rem;color:#173d2d;margin:0 0 9px}
+.consultas-parciales .detalle-pedido-acc p{margin:0;line-height:1.6;color:#615d56}
+.consultas-parciales .cabecera-consulta a{color:#07583a;text-decoration:underline;text-underline-offset:3px}
+
+/* Rendimiento y espacio: filas de altura normal, 20 elementos por página.
+   Mantiene la distribución original y la paginación al pie del panel. */
+@media(min-width:1101px){
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla{display:flex;flex-direction:column;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla table{height:auto!important;min-height:0!important;flex:none!important;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla tbody tr{height:auto!important;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla td{padding:6px 8px!important;vertical-align:middle;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion{margin-top:auto!important;}
+}
+
+/* Paso 39: tonos blanco/salvia, conservando el diseño y la fotografía. */
+.consultas-acc .filtros-consulta,
+.consultas-acc .indicadores-consulta>div,
+.consultas-acc .grafico-consulta,
+.consultas-acc .tabla-scroll {
+  border-color: #C4D8CD;
+}
+.consultas-acc .filtros-consulta { background: #F5F9F7; }
+.estadisticas-arcos-acc .estadisticas-arcos-tabla tbody tr:nth-child(even){background:#EDF5F0;}
+.estadisticas-arcos-acc .estadisticas-arcos-tabla th{background:#07583A;}
+/* Filas normales: el espacio libre se ocupa mostrando más registros, no estirándolos. */
+@media(min-width:1101px){
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla{display:flex;flex-direction:column;min-height:100%;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla table{height:auto!important;flex:0 0 auto!important;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla tbody tr{height:auto!important;}
+ .estadisticas-arcos-acc .estadisticas-arcos-tabla .paginacion{margin-top:auto!important;}
+}
