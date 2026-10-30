@@ -1,4 +1,3 @@
-"""Consultas de pedidos ACC y evolución. Solo lectura, paginación del lado servidor."""
 from datetime import date, timedelta, datetime
 from time import monotonic
 from threading import Lock
@@ -41,10 +40,11 @@ def estado_pedido(d, dias=None, hoy=None):
     return 'En proceso'
 
 def filtros_pedidos(cliente=None, referencia=None, fecha_inicio=None, fecha_fin=None, estado=None,
-                    orden_compra=None, acabado_talla=None, color_codigo=None, comercial=None):
+                    orden_compra=None, acabado_talla=None, color_codigo=None, comercial=None, factura=None):
     f = {}
     for campo,valor in [('cliente',cliente),('referencia',referencia),('orden_compra',orden_compra),
-                        ('acabado_talla',acabado_talla),('color_codigo',color_codigo),('comercial',comercial)]:
+                        ('acabado_talla',acabado_talla),('color_codigo',color_codigo),('comercial',comercial),
+                        ('factura',factura)]:
         if valor: f['datos.'+campo] = {'$regex': re.escape(str(valor)[:80]), '$options': 'i'}
     rango = {}
     if fecha_inicio: rango['$gte'] = str(fecha_inicio)
@@ -79,16 +79,14 @@ def listar_pedidos(pagina:int=Query(1,ge=1),por_pagina:int=Query(50,ge=1,le=200)
                    cliente:str|None=None, referencia:str|None=None,orden_compra:str|None=None,
                    acabado_talla:str|None=None,color_codigo:str|None=None,comercial:str|None=None,
                    fecha_inicio:date|None=None,fecha_fin:date|None=None,estado:str|None=None,
-                   ordenar:str='fecha_pedido',direccion:str='desc'):
+                   factura:str|None=None, ordenar:str='fecha_pedido',direccion:str='desc'):
     if estado and estado not in ESTADOS_PEDIDO: raise HTTPException(422,'Estado desconocido')
     campos={'fecha_pedido','fecha_solicitada','fecha_comprometida','cliente','comercial','orden_compra',
-            'referencia','acabado_talla','color_codigo','cantidad_solicitada','cantidad_entregada_acumulada'}
+            'referencia','acabado_talla','color_codigo','factura','cantidad_solicitada','cantidad_entregada_acumulada'}
     if ordenar not in campos: raise HTTPException(422,'Campo de ordenamiento desconocido')
     if direccion not in ('asc','desc'): raise HTTPException(422,'Dirección inválida')
-    filtro=filtros_pedidos(cliente,referencia,fecha_inicio,fecha_fin,None,orden_compra,acabado_talla,color_codigo,comercial)
+    filtro=filtros_pedidos(cliente,referencia,fecha_inicio,fecha_fin,None,orden_compra,acabado_talla,color_codigo,comercial,factura)
     coll=database['pedidos_acc']; dias=obtener_dias_entrega_proxima()
-    # Estados calculados según la fecha de hoy y la fecha comprometida.
-    # Un estado requiere filtrar antes de paginar para devolver contadores exactos.
     if estado:
         encontrados=[]
         for d in coll.find(filtro, {'datos':1,'revision':1}).sort([('datos.'+ordenar,1 if direccion=='asc' else -1),('_id',-1)]):

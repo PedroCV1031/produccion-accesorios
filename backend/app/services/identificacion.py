@@ -1,9 +1,3 @@
-"""Conciliación conservadora de líneas de pedidos ACC.
-
-No escribe en MongoDB ni asigna _id: el motor recibe candidatos existentes
-obtenidos por la colección pedidos_acc. Una coincidencia por atributos nunca
-es una garantía si hay múltiples filas indistinguibles.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass

@@ -18,9 +18,9 @@ const columnas: [string, string][] = [
   ['acabado_talla', 'Acabado/talla'], ['color_codigo', 'Color/código'], ['cantidad_solicitada', 'Cantidad solicitada'],
   ['fecha_ultima_entrega', 'Última entrega'], ['cantidad_entregada_acumulada', 'Entregado'], ['factura', 'Factura'],
 ]
-type Filtros = { cliente: string; referencia: string; orden: string; comercial: string; acabado: string; color: string; desde: string; hasta: string; estado: string }
+type Filtros = { cliente: string; referencia: string; orden: string; comercial: string; acabado: string; color: string; desde: string; hasta: string; estado: string; factura: string }
 type Preferencias = { pagina: number; porPagina: number; ordenar: string; direccion: string }
-const inicialFiltros: Filtros = { cliente:'', referencia:'', orden:'', comercial:'', acabado:'', color:'', desde:'', hasta:'', estado:'' }
+const inicialFiltros: Filtros = { cliente:'', referencia:'', orden:'', comercial:'', acabado:'', color:'', desde:'', hasta:'', estado:'', factura: '',}
 const inicialPreferencias: Preferencias = { pagina:1, porPagina:50, ordenar:'fecha_pedido', direccion:'desc' }
 const CLAVE_GUARDADO = 'acc.pedidos.filtros'
 const CLAVE_BORRADOR = 'acc.pedidos.borrador'
@@ -63,6 +63,7 @@ export default function PedidosACCPage() {
             fecha_inicio: filtrosAplicados.desde || undefined,
             fecha_fin: filtrosAplicados.hasta || undefined,
             estado: filtrosAplicados.estado || undefined,
+            factura: filtrosAplicados.factura || undefined,
             ordenar: prefs.ordenar, direccion: prefs.direccion,
           },
         })
@@ -92,6 +93,7 @@ export default function PedidosACCPage() {
     <form className="filtros-consulta filtros-pedidos-acc" onSubmit={aplicar}>
       <label>Cliente<select value={filtros.cliente} onChange={e => actualizarFiltro('cliente', e.target.value)}><option value="">Todos</option>{(opciones.cliente || []).map(x => <option key={x} value={x}>{x}</option>)}</select></label>
       <label>Orden de compra<input value={filtros.orden} onChange={e => actualizarFiltro('orden', e.target.value)} placeholder="N.º de orden" /></label>
+      <label>Factura<input value={filtros.factura} onChange={e => actualizarFiltro('factura', e.target.value)} placeholder="N.º de factura"/></label>
       <label>Comercial<select value={filtros.comercial} onChange={e => actualizarFiltro('comercial', e.target.value)}><option value="">Todos</option>{(opciones.comercial || []).map(x => <option key={x}>{x}</option>)}</select></label>
       <label>Referencia<select value={filtros.referencia} onChange={e => actualizarFiltro('referencia', e.target.value)}><option value="">Todas</option>{(opciones.referencia || []).map(x => <option key={x} value={x}>{x}</option>)}</select></label>
       <label>Acabado/talla<select value={filtros.acabado} onChange={e => actualizarFiltro('acabado', e.target.value)}><option value="">Todos</option>{(opciones.acabado_talla || []).map(x => <option key={x}>{x}</option>)}</select></label>

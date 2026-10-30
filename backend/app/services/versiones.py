@@ -1,7 +1,3 @@
-"""Proyección pura de cambios de pedidos ACC para construir futuras versiones.
-
-La escritura transaccional y el número consecutivo se implementarán con MongoDB.
-"""
 from __future__ import annotations
 from typing import Mapping
 from .identificacion import diferencias

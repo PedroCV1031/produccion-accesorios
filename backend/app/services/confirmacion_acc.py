@@ -1,8 +1,3 @@
-"""Confirmación transaccional del lote completo ACC (sin endpoint público).
-
-Solo para usarse tras verificar que el despliegue MongoDB soporta transacciones.
-Relee y reconcilia el archivo original en el servidor; nunca confía en el plan del navegador.
-"""
 from __future__ import annotations
 
 import hashlib
